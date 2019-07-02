@@ -1,5 +1,7 @@
-import PyPDF2
 import re
+
+import PyPDF2
+
 
 # Esta función regresa el texto completo de cada página.
 
@@ -17,6 +19,7 @@ def pdftexto(pdfobjec):
     rawstring = pgstring.replace('[\'', '').replace('\']', ',').replace('\'', '')
     return rawstring
 
+
 # Esta función hace una búsqueda en un pdf determinado
 
 def pdfbusq(pdfobjec, busquery):
@@ -25,7 +28,6 @@ def pdfbusq(pdfobjec, busquery):
     paginacion = pdfread.numPages
     cadena = busquery
     resultad = []
-    resultad.append("Este es el resultado de la búsqueda \"{}\" en el archivo {}".format(busquery, pdfobjec))
     for i in range(paginacion):
         pag_obj = pdfread.getPage(i)
         texto = pag_obj.extractText()
@@ -34,7 +36,7 @@ def pdfbusq(pdfobjec, busquery):
         if not buscando:
             pass
         else:
-            resultad.append("Se encontró " + str(buscando) + " en la página núm. " + str(i))
+            resultad.append("Se encontró " + str(buscando) + " en la página núm. " + str(i+1))
     pdfobjec.close()
 
     return resultad

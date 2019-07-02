@@ -1,8 +1,10 @@
 import os
+
 try:
     from scandir import walk
 except ImportError:
     walk = os.walk
+
 
 class Dir:
 
