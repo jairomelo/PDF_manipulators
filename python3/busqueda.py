@@ -5,14 +5,13 @@ import errno
 import os
 import re
 import sys
+import zlib
 from time import strftime
 
 import PyPDF2
 
 import dirarchpdf
 import extrac
-
-error_log = open("error_log.txt", "a")
 
 carp = input("¿En qué carpeta desea hacer la búsqueda? ")
 
@@ -29,8 +28,7 @@ pdb = input("Ingrese su búsqueda: ")
 
 rutas = dirarchpdf.Dir.buspdfall(busqueda)
 
-print("Se realizará la búsqueda en los siguientes {} archivos: ".format(len(rutas)))
-print(dirarchpdf.Dir.buspdfall(busqueda))
+print("Se realizará la búsqueda en {} archivos: ".format(len(rutas)))
 
 try:
     os.makedirs("resultados")
@@ -62,24 +60,15 @@ for nomarc in rutas:
             print(caja_busq)
         else:
             print("Sin resultados")
-    except KeyError:
+    except (KeyError, PyPDF2.utils.PdfReadError, NotImplementedError, zlib.error, ValueError):
+        error_log = open("error_log.txt", "a")
         error_log.write(
             "\n# [{}] No se pudo leer el archivo {}. Error: {} \n".format(strftime("%d %b %Y %H:%M"), nomarch,
-                                                                          sys.exc_info()[0]))
-        pass
-    except PyPDF2.utils.PdfReadError:
-        error_log.write(
-            "\n# [{}] No se pudo leer el archivo {}. Error: {} \n".format(strftime("%d %b %Y %H:%M"), nomarch,
-                                                                          sys.exc_info()[0]))
-        pass
-    except NotImplementedError:
-        error_log.write(
-            "\n# [{}] No se pudo leer el archivo {}. Error: {} \n".format(strftime("%d %b %Y %H:%M"), nomarch,
-                                                                          sys.exc_info()[0]))
+                                                                          sys.exc_info()))
+        error_log.close()
         pass
 
 resultado.close()
-error_log.close()
 
 print("Finalizó la búsqueda :)")
 print("El archivo está guardado en {}".format(os.getcwd()))

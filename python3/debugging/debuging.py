@@ -1,7 +1,7 @@
 import extrac
 import PyPDF2
 
-problematic_file = ""
+problematic_file = "E:/experiments/buscar_recolectar/python3/test_files/pf/encrypted_np.pdf"
 
 try:
     print(extrac.pdftexto(problematic_file))

@@ -31,7 +31,7 @@ def pdfbusq(pdfobjec, busquery):
     for i in range(paginacion):
         pag_obj = pdfread.getPage(i)
         texto = pag_obj.extractText()
-        print("\r" + "Leyendo página " + str(i) + ".", end="")
+        print("\r" + "Leyendo página " + str(i+1) + ".", end="")
         buscando = re.findall(cadena, texto)
         if not buscando:
             pass
